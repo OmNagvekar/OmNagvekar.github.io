@@ -109,6 +109,7 @@
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s ease;
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      display: inline-block;
     }
     
     .btn-resume:hover {
@@ -204,13 +205,41 @@
       transform: translateY(0);
     }
     
-    /* Responsive */
+    /* Responsive Styles */
     @media (max-width: 768px) {
       nav ul li {
         margin: 0 10px;
       }
       header h1 {
         font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+        padding: 10px;
+      }
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav ul li {
+        margin: 5px 0;
+      }
+      .btn-resume {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        margin: 5px;
+        width: 100%;
+        max-width: 300px;
+        box-sizing: border-box;
+      }
+      #scrollToTopBtn {
+        right: 15px;
+        bottom: 15px;
+        padding: 8px 12px;
+        font-size: 16px;
       }
     }
   </style>
@@ -245,8 +274,8 @@
       </p>
       <!-- Resume Download Buttons -->
       <div class="resume-buttons">
-        <a class="btn-resume" href="assests/Om_Nagvekar_Resume.pdf" target="_blank">Download Resume Template 1</a>
-        <a class="btn-resume" href="assests/Om_Nagvekar_Resume_2.pdf" target="_blank">Download Resume Template 2</a>
+        <a class="btn-resume" href="assests/Om_Nagvekar_Resume_Template1.pdf" target="_blank">Download Resume Template 1</a>
+        <a class="btn-resume" href="assests/Om_Nagvekar_Resume_Template2.pdf" target="_blank">Download Resume Template 2</a>
       </div>
     </div>
   </section>
@@ -440,7 +469,7 @@
       observer.observe(el);
     });
 
-    // Smooth scrolling for anchor links (optional if browser supports CSS scroll-behavior)
+    // Smooth scrolling for anchor links (in case browser defaults are overridden)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
