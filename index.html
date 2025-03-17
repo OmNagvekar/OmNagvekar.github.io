@@ -242,6 +242,13 @@
         font-size: 16px;
       }
     }
+    .image-container img {
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -266,7 +273,7 @@
   <section id="about" class="section">
     <div class="container fade-in">
       <h2>About Me</h2>
-      <div style="text-align: center;">
+      <div class="image-container" style="text-align: center;" oncontextmenu="return false">
         <img src="assests/photo.jpg" alt="Om Nagvekar" style="width: 150px; border-radius: 50%; margin-bottom: 20px;">
       </div>
       <p>
