@@ -2,23 +2,28 @@ name: Build & Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
+# Grant GITHUB_TOKEN the minimal scopes needed
+permissions:
+  contents: write   # allow git push to gh-pages branch
+  pages: write      # allow Pages API calls (if used)
+  id-token: write   # required by some Pages workflows
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    # load your secrets into env vars
     env:
       EMAILJS_USER_ID:    ${{ secrets.EMAILJS_USER_ID }}
       EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
-      EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+      EMAILJS_TEMPLATE_ID:${{ secrets.EMAILJS_TEMPLATE_ID }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # (if you have a build step, e.g. npm run build)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -28,12 +33,11 @@ jobs:
         run: npm install
 
       - name: Build site
-        run: npm run build     # or skip if pure HTML
+        run: npm run build   # no-op for pure HTML, or your static‑site build
 
-      # now replace placeholders with the real secrets
       - name: Inject EmailJS keys
         run: |
-          TARGET="./index.html"   # or ./index.html if no build
+          TARGET="./index.html"
           sed -i "s|__EMAILJS_USER_ID__|$EMAILJS_USER_ID|g"   $TARGET
           sed -i "s|__EMAILJS_SERVICE_ID__|$EMAILJS_SERVICE_ID|g"   $TARGET
           sed -i "s|__EMAILJS_TEMPLATE_ID__|$EMAILJS_TEMPLATE_ID|g" $TARGET
@@ -42,4 +46,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./       # or `.` for root
+          publish_dir: ./    # deploy the repo root
