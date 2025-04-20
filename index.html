@@ -153,6 +153,16 @@
     form button:hover {
       background: #43a047;
     }
+    #captchaBox {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    #captchaQuestion {
+      font-weight: bold;
+      margin-right: 10px;
+    }
     
     /* Footer */
     footer {
@@ -417,6 +427,10 @@
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
         <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <div id="captchaBox">
+          <span id="captchaQuestion"></span>
+          <input type="text" id="captchaAnswer" placeholder="Answer" required />
+        </div>
         <button type="submit">Send Message</button>
       </form>
     </div>
@@ -439,10 +453,30 @@
   <script>
     // Initialize EmailJS with your User ID
     emailjs.init("hRKO_15PweTZtUhDj"); // Replace with your EmailJS User ID 
+    // CAPTCHA Logic
+    const captchaQuestion = document.getElementById("captchaQuestion");
+    const captchaAnswer = document.getElementById("captchaAnswer");
+
+    let correctAnswer;
+
+    function generateCaptcha() {
+      const a = Math.floor(Math.random() * 10) + 1;
+      const b = Math.floor(Math.random() * 10) + 1;
+      correctAnswer = a + b;
+      captchaQuestion.textContent = `What is ${a} + ${b}?`;
+    }
+
+  generateCaptcha(); // call once at load
 
     document.getElementById('contact-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
+      if (parseInt(captchaAnswer.value) !== correctAnswer) {
+        alert("Incorrect CAPTCHA answer. Please try again.");
+        generateCaptcha(); // regenerate on failure
+        captchaAnswer.value = "";
+        return;
+      }
       const name = document.querySelector('input[name="name"]').value;
       const email = document.querySelector('input[name="email"]').value;
       const message = document.querySelector('textarea[name="message"]').value;
