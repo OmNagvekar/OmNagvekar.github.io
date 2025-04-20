@@ -460,11 +460,31 @@
     let correctAnswer;
 
     function generateCaptcha() {
-      const a = Math.floor(Math.random() * 10) + 1;
-      const b = Math.floor(Math.random() * 10) + 1;
-      correctAnswer = a + b;
-      captchaQuestion.textContent = `What is ${a} + ${b}?`;
+      const a = Math.floor(Math.random() * 50) + 1; // number between 1 and 50
+      const b = Math.floor(Math.random() * 50) + 1;
+      const operators = ['+', '-', '*'];
+      const operator = operators[Math.floor(Math.random() * operators.length)];
+      let question, answer;
+    
+      switch (operator) {
+        case '+':
+          answer = a + b;
+          question = `What is ${a} + ${b}?`;
+          break;
+        case '-':
+          answer = a - b;
+          question = `What is ${a} - ${b}?`;
+          break;
+        case '*':
+          answer = a * b;
+          question = `What is ${a} * ${b}?`;
+          break;
+      }
+    
+      correctAnswer = answer;
+      captchaQuestion.textContent = question;
     }
+    
 
   generateCaptcha(); // call once at load
 
