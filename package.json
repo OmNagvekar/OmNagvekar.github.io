@@ -1,0 +1,15 @@
+{
+    "name": "om-nagvekar-portfolio",
+    "version": "1.0.0",
+    "description": "Static portfolio site for Om Nagvekar",
+    "scripts": {
+      "build": "echo 'Nothing to build, static HTML site'",
+      "start": "npx serve . -l 8080"
+    },
+    "author": "Om Nagvekar",
+    "license": "MIT",
+    "devDependencies": {
+      "serve": "^14.0.1"
+    }
+  }
+  
