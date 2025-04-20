@@ -12,7 +12,7 @@ jobs:
     env:
       EMAILJS_USER_ID:    ${{ secrets.EMAILJS_USER_ID }}
       EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
-      EMAILJS_TEMPLATE_ID:${{ secrets.EMAILJS_TEMPLATE_ID }}
+      EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
 
     steps:
       - name: Checkout
@@ -33,7 +33,7 @@ jobs:
       # now replace placeholders with the real secrets
       - name: Inject EmailJS keys
         run: |
-          TARGET="dist/index.html"   # or ./index.html if no build
+          TARGET="./index.html"   # or ./index.html if no build
           sed -i "s|__EMAILJS_USER_ID__|$EMAILJS_USER_ID|g"   $TARGET
           sed -i "s|__EMAILJS_SERVICE_ID__|$EMAILJS_SERVICE_ID|g"   $TARGET
           sed -i "s|__EMAILJS_TEMPLATE_ID__|$EMAILJS_TEMPLATE_ID|g" $TARGET
@@ -42,4 +42,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist       # or `.` for root
+          publish_dir: ./       # or `.` for root
