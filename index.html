@@ -438,8 +438,7 @@
 
   <script>
     // Initialize EmailJS with your User ID
-    emailjs.init("__EMAILJS_USER_ID__"); // Replace with your EmailJS User ID 
-    console.log('Init EmailJS with:', "__EMAILJS_USER_ID__");
+    emailjs.init("hRKO_15PweTZtUhDj"); // Replace with your EmailJS User ID 
 
     document.getElementById('contact-form').addEventListener('submit', function (e) {
       e.preventDefault();
@@ -453,7 +452,7 @@
         return;
       }
 
-      emailjs.send('__EMAILJS_SERVICE_ID__', '__EMAILJS_TEMPLATE_ID__', {
+      emailjs.send('service_nyuef4b', 'template_5rguy7a', {
         name: name,
         email: email,
         message: message,
