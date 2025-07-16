@@ -6,6 +6,7 @@
   <title>Om Nagvekar Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <style>
     /* Global Styles */
     body {
@@ -16,6 +17,7 @@
       color: #333;
       background-color: #f9f9f9;
       scroll-behavior: smooth;
+      
     }
     
     a {
@@ -28,6 +30,10 @@
       background: linear-gradient(90deg, #4CAF50, #2C3E50);
       color: #fff;
       padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      transition: padding 0.3s ease;
     }
     
     .header-container {
@@ -37,6 +43,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+    header.small {
+      padding: 8px 0;
+      background: linear-gradient(90deg, #388E3C, #1A252F);
+    }
+    header.small h1 {
+      font-size: 2rem;
+      transition: font-size 0.3s ease;
+    }
+
+    header.small p {
+      font-size: 1rem;
+      transition: font-size 0.3s ease;
     }
     
     header h1 {
@@ -69,6 +88,19 @@
     nav ul li a {
       color: #fff;
       font-weight: 500;
+    }
+    nav ul li a.active {
+      color: #ffe082;
+      position: relative;
+    }
+    nav ul li a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #ffe082;
     }
     
     /* Sections */
@@ -124,6 +156,27 @@
       font-size: 0.95rem;
       line-height: 1.4;
     }
+    .skill-bar {
+      background: #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 10px 0;
+      height: 12px;
+    }
+    .skill-bar-inner {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(135deg, #4CAF50, #2C3E50);
+      border-radius: 8px;
+      transition: width 1.2s ease-out;
+    }
+
+    /* When visible */
+    .skill-bar-inner.animate {
+      /* you’ll set a data-percent on each bar in HTML, JS will read it */
+      width: var(--skill-percent);
+    }
+
 
     
     /* Resume Buttons */
@@ -157,6 +210,12 @@
       margin: 10px 0;
       padding: 15px;
       border-left: 5px solid #4CAF50;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
     
     /* Contact Form */
@@ -214,8 +273,43 @@
     footer .social-links a:hover {
       color: #fff;
     }
+
+    #tagline::after {
+      content: '|';
+      display: inline-block;
+      margin-left: 2px;
+      animation: blink 0.7s steps(2) infinite;
+    }
+    @keyframes blink { to { visibility: hidden; } }
+
     
     /* Scroll-to-Top Button */
+    #preloader {
+      position: fixed; inset: 0;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+        }
+    .spinner {
+      width: 50px; height: 50px;
+      border: 6px solid #eee;
+      border-top: 6px solid #4CAF50;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 4px;
+      background: #4CAF50;
+      width: 0;
+      z-index: 1000;
+      transition: width 0.2s ease-out;
+    }
     #scrollToTopBtn {
       position: fixed;
       bottom: 30px;
@@ -316,11 +410,15 @@
     </div>
   </header>
 
+  <div id="preloader"><div class="spinner"></div></div>
+
+  <div id="progress"></div>
+
   <section id="about" class="section">
     <div class="container fade-in">
       <h2>About Me</h2>
       <div class="image-container" style="text-align: center;" oncontextmenu="return false">
-        <img src="assests/photo.jpg" alt="Om Nagvekar" style="width: 150px; border-radius: 50%; margin-bottom: 20px;">
+        <img src="assests/photo.jpg" alt="Om Nagvekar",class="lazy" style="width: 150px; border-radius: 50%; margin-bottom: 20px;">
       </div>
       <p>
         I am Om Nagvekar, a Computer Science student with a focus on Artificial Intelligence and Machine Learning (AIML). I am eager to contribute to and learn from innovative projects in the field – collaborating on research projects and developing solutions using AIML, deep learning, and RAG Application Development.
@@ -380,34 +478,58 @@
         <div class="skill-card">
           <h3>Languages</h3>
           <p>Python, Java</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>AI & ML Frameworks</h3>
           <p>PyTorch, TensorFlow, Keras, LangGraph, LangChain, smolagents, FastMCP</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>NLP & RAG</h3>
           <p>Retrieval-Augmented Generation (RAG), LangChain, LlamaIndex, LLM fine-tuning</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>API Development & Tools</h3>
           <p>FastAPI, Docker, Model Context Protocol (MCP)</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>Research & Data Processing</h3>
           <p>Data preprocessing, exploratory analysis, model evaluation, pandas, numpy</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>Version Control</h3>
           <p>Git, GitHub</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>DevOps</h3>
           <p>Docker, Kubernetes, AWS</p>
+          <div class="skill-bar" data-percent="90%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
         <div class="skill-card">
           <h3>Other</h3>
           <p>Android Development, SQLite</p>
+          <div class="skill-bar" data-percent="70%">
+            <div class="skill-bar-inner"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -535,6 +657,58 @@
   <button id="scrollToTopBtn">&#8679;</button>
 
   <script>
+    window.addEventListener('load', () => {
+      document.getElementById('preloader').style.opacity = '0';
+      setTimeout(()=> document.getElementById('preloader').remove(), 500);
+    });
+
+    // In your scroll listener, after toggling 'small', do:
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('nav ul li a');
+
+    window.addEventListener('scroll', () => {
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('progress').style.width = scrolled + '%';
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120; // account for sticky header
+        if (window.scrollY >= top) current = sec.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+      });
+    });
+    const imgs = document.querySelectorAll('img.lazy');
+    const imgObs = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const img = e.target;
+          img.src = img.dataset.src;
+          img.classList.remove('lazy');
+          obs.unobserve(img);
+        }
+      });
+    }, { rootMargin: '100px' });
+
+    imgs.forEach(i => imgObs.observe(i));
+
+
+    // At the bottom of your <script> before the scroll-to-top code
+    const bars = document.querySelectorAll('.skill-bar');
+    const barObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const bar = e.target;
+          const inner = bar.querySelector('.skill-bar-inner');
+          inner.style.setProperty('--skill-percent', bar.dataset.percent);
+          inner.classList.add('animate');
+          obs.unobserve(bar);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    bars.forEach(b => barObserver.observe(b));
     // Initialize EmailJS with your User ID
     emailjs.init("hRKO_15PweTZtUhDj"); // Replace with your EmailJS User ID 
     // CAPTCHA Logic
@@ -647,6 +821,8 @@
     // Scroll-to-Top Button
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
     window.addEventListener('scroll', () => {
+      document.querySelector('header')
+        .classList.toggle('small', window.scrollY > 100);
       if (window.scrollY > 300) {
         scrollToTopBtn.style.display = 'block';
       } else {
