@@ -217,7 +217,117 @@
       transform: translateY(-8px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
-    
+    /* Add to your <style> */
+    .timeline {
+      position: relative;
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #4CAF50;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
+      border-radius: 50%;
+    }
+    .timeline-content {
+      background: #f4f4f4;
+      padding: 15px 20px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .timeline-content h3 {
+      margin: 0 0 5px;
+      color: #333;
+    }
+    .timeline-date {
+      font-size: 0.9rem;
+      color: #777;
+    }
+    .pub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .pub-card {
+      background: #fff;
+      padding: 20px;
+      border-left: 4px solid #4CAF50;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+    .pub-card:hover {
+      transform: translateY(-4px);
+    }
+    .pub-card h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    .pub-card p {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 8px 0;
+    }
+    .pub-card a {
+      font-weight: 500;
+      color: #4CAF50;
+      transition: color 0.2s;
+    }
+    .pub-card a:hover {
+      color: #388E3C;
+    }
+    .cert-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      columns: 2;
+      column-gap: 40px;
+    }
+
+    .cert-list li {
+      position: relative;
+      margin-bottom: 12px;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      border-radius: 6px;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cert-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4CAF50;
+      font-weight: bold;
+    }
+    /* Hover state */
+    .cert-list li:hover {
+      background: #e8f5e9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      cursor: default;
+    }
+
     /* Contact Form */
     form {
       max-width: 600px;
@@ -434,40 +544,73 @@
   <section id="education" class="section">
     <div class="container fade-in">
       <h2>Education</h2>
-      <ul>
-        <li>
-          <strong>KIT’s College of Engineering (Autonomous), Kolhapur</strong> (2021-2025 expected)<br>
-          B.Tech in Computer Science (Artificial Intelligence and Machine Learning)<br>
-          GPA: 8.41/10.0 Equivalent to 79.84%
-        </li>
-        <li>
-          <strong>Sou. S.M. Lohia Jr. College, Kolhapur</strong> (2019-2021)<br>
-          12th (HSC, Maharashtra State Board)<br>
-          Percentage: 88.33%
-        </li>
-        <li>
-          <strong>New High School, Kolhapur</strong> (2019)<br>
-          10th (SSC, Maharashtra State Board)<br>
-          Percentage: 82.80%
-        </li>
-      </ul>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>KIT’s College of Engineering (Autonomous), Kolhapur</h3>
+            <span class="timeline-date">Dec 2021 – Jun 2025 </span>
+            <p>B.Tech in Computer Science (Artificial Intelligence and Machine Learning)<br>GPA: 8.41/10</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Sou. S.M. Lohia Jr. College, Kolhapur</h3>
+            <span class="timeline-date">2019-2021</span>
+            <p>12th (HSC, Maharashtra State Board)<br>Percentage: 88.33%</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>New High School, Kolhapur</h3>
+            <span class="timeline-date">2019</span>
+            <p>10th (SSC, Maharashtra State Board)<br>Percentage: 82.80%</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="experience" class="section">
     <div class="container fade-in">
       <h2>Experience</h2>
-      <ul>
-        <li>
-          <strong>Machine Learning Intern</strong> - ArthaVedh Consulting Pvt Ltd (2024-Present)
-        </li>
-        <li>
-          <strong>Research Internship</strong> - Shivaji University (2024-Present)
-        </li>
-        <li>
-          <strong>Intel Unnati Training Program</strong> - May-August 2024
-        </li>
-      </ul>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Research Intern, Shivaji University (Nanoscience Department)</h3>
+            <span class="timeline-date">Aug 2024 – Jun 2025</span>
+            <ul>
+              <li>Applying machine learning techniques (time series analysis and change point detection) to material science data.</li>
+              <li>Developing a RAG-based system for research paper analysis to extract key scientific insights, potentially increasing data extraction efficiency by 50%.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Machine Learning Intern, ArthaVedh Consulting</h3>
+            <span class="timeline-date">Jun 2024 – Dec 2024</span>
+            <ul>
+              <li>Contributed to the development of machine learning models and synthetic data generation, improving training workflows by streamlining data pipelines by over 30%.</li>
+              <li>Built synthetic data generators with Faker & pandas.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Intern – Business Contract Validation, Intel Unnati Industrial Training Program 2024</h3>
+            <span class="timeline-date">May 2024 – Aug 2024</span>
+            <ul>
+              <li>Automated validation of hundreds of business contracts by classifying and comparing them against standard documents, reducing manual review time by an estimated 40%.</li>
+              <li>Implemented a RAG pipeline with a fine-tuned Phi-3 mini LLM to accurately identify deviations.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -476,7 +619,7 @@
       <h2>Skills</h2>
       <div class="skills-grid">
         <div class="skill-card">
-          <h3>Languages</h3>
+          <h3>Programming Languages</h3>
           <p>Python, Java</p>
           <div class="skill-bar" data-percent="90%">
             <div class="skill-bar-inner"></div>
@@ -525,6 +668,19 @@
           </div>
         </div>
         <div class="skill-card">
+          <h3>Languages</h3>
+          <p>English
+            <div class="skill-bar" data-percent="90%">
+              <div class="skill-bar-inner"></div>
+            </div>
+          </p>
+          <p>Japanese
+            <div class="skill-bar" data-percent="50%">
+              <div class="skill-bar-inner"></div>
+            </div>
+          </p>
+        </div>
+        <div class="skill-card">
           <h3>Other</h3>
           <p>Android Development, SQLite</p>
           <div class="skill-bar" data-percent="70%">
@@ -538,19 +694,23 @@
   <section id="publications" class="section">
     <div class="container fade-in">
       <h2>Publications</h2>
-      <p>
-        <strong>Managing Spam Images on Android: An Approach Utilizing Machine Learning and NLP</strong><br>
-        Om Ulhas Nagvekar, Sumeet Kurbetti, Parth Sarnobat, Uma Gurav, and Tanvi Patil.<br>
-        Proceedings of Fifth International Conference on Computing, Communications, and Cyber-Security: IC4S’05, Volume 1, Springer, Lecture Notes in Networks and Systems.<br>
-        DOI: <a href="https://doi.org/10.1007/978-981-97-2550-2_59" target="_blank">https://doi.org/10.1007/978-981-97-2550-2_59</a>
-      </p>
+      <div class="pub-grid">
+        <div class="pub-card">
+          <h3>Managing Spam Images on Android: An Approach Utilizing Machine Learning and NLP</h3>
+          <p>
+            Om Ulhas Nagvekar, Sumeet Kurbetti, Parth Sarnobat, Uma Gurav, and Tanvi Patil.<br>
+            Proceedings of Fifth International Conference on Computing, Communications, and Cyber-Security: IC4S’05, Volume 1, Springer, Lecture Notes in Networks and Systems.<br>
+            DOI: <a href="https://doi.org/10.1007/978-981-97-2550-2_59" target="_blank">https://doi.org/10.1007/978-981-97-2550-2_59</a>
+          </p>
+        </div>
+      </div>
     </div>
   </section>
   
   <section id="certifications_and_Awards" class="section">
     <div class="container fade-in">
       <h2>Certifications and Awards</h2>
-      <ul>
+      <ul class="cert-list">
         <li>LSAT (Lab Setup Automation Tool) PBL Day Winners</li>
         <li>ML and AI Workshop - Technex, IIT Varanasi</li>
         <li>Runner-up, Pioneer 2022 Runner-Up (Prakalp)</li>
