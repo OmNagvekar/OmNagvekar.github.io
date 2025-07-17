@@ -317,7 +317,12 @@
             <span id="captchaQuestion"></span>
             <input type="text" id="captchaAnswer" placeholder="Answer" required />
           </div>
-          <button type="submit">Send Message</button>
+          <button type="submit" class="btn-submit">
+            <span class="btn-text">Send Message</span>
+            <span class="loading-dots">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </span>
+          </button>
         </form>
       </div>
     </div>
@@ -400,6 +405,7 @@
     // CAPTCHA Logic
     const captchaQuestion = document.getElementById("captchaQuestion");
     const captchaAnswer = document.getElementById("captchaAnswer");
+    const submitBtn = document.getElementById('contact-form').querySelector('button[type="submit"]');
 
     let correctAnswer;
 
@@ -432,9 +438,11 @@
 
     generateCaptcha(); // call once at load
 
-    document.getElementById('contact-form').addEventListener('submit', function (e) {
+    document.getElementById('contact-form').addEventListener('submit', async function (e) {
       e.preventDefault();
-
+      // show spinner
+      submitBtn.classList.add("loading");
+      // CAPTCHA check
       if (parseInt(captchaAnswer.value) !== correctAnswer) {
         alert("Incorrect CAPTCHA answer. Please try again.");
         generateCaptcha(); // regenerate on failure
@@ -446,24 +454,29 @@
       const message = document.querySelector('textarea[name="message"]').value;
 
       if (!name || !email || !message) {
+        submitBtn.classList.remove("loading");
         alert('Please fill out all fields.');
         return;
       }
-
-      emailjs.send('service_nyuef4b', 'template_5rguy7a', {
-        name: name,
-        email: email,
-        message: message,
-      })
-      .then(function (response) {
+      // 3) send
+      try{
+        const response = await emailjs.send('service_nyuef4b', 'template_5rguy7a', {
+          name: name,
+          email: email,
+          message: message,
+        });
         console.log('SUCCESS!', response.status, response.text);
         alert('Message sent successfully!');
         document.getElementById('contact-form').reset();
-      })
-      .catch(function (error) {
-        console.error('FAILED...', error);
+      }
+      catch(err) {
+        console.error('FAILED...', err);
         alert('Failed to send the message. Please try again.');
-      });
+      }
+      finally{
+        // hide spinner
+        submitBtn.classList.remove("loading");
+      }
     });
 
     // Typewriter effect for the header tagline
