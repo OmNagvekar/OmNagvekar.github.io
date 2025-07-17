@@ -68,6 +68,15 @@
       font-size: 1.2rem;
       min-height: 1.5em;
     }
+    /* Hide hamburger on desktop */
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
     
     nav {
       margin-top: 10px;
@@ -464,6 +473,32 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      #navMenu {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background: #2C3E50;
+        padding: 10px;
+        border-radius: 6px;
+        width: 100%;
+      }
+
+      #navMenu.show {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 6px 0;
+      }
+    }
     
     /* Responsive Styles */
     @media (max-width: 768px) {
@@ -525,7 +560,8 @@
       <h1>Om Nagvekar</h1>
       <p id="tagline"></p>
       <nav>
-        <ul>
+        <button id="navToggle" class="hamburger">&#9776;</button>
+        <ul id="navMenu">
           <li><a href="#about">About</a></li>
           <li><a href="#education">Education</a></li>
           <li><a href="#experience">Experience</a></li>
@@ -837,6 +873,11 @@
   <button id="scrollToTopBtn">&#8679;</button>
 
   <script>
+    // Mobile nav toggle
+    document.getElementById("navToggle").addEventListener("click", function () {
+      document.getElementById("navMenu").classList.toggle("show");
+    });
+
     window.addEventListener('load', () => {
       document.getElementById('preloader').style.opacity = '0';
       setTimeout(()=> document.getElementById('preloader').remove(), 500);
