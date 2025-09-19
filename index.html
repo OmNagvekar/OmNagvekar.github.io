@@ -775,21 +775,61 @@
         return list.filter(f => f.type === 'file' && /\.(md|markdown)$/i.test(f.name));
       }
 
+      async function fetchBlogPreview(fileName, lines = 20) {
+        try {
+          const url = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/main/${blogsPath}/${fileName}`;
+          const res = await fetch(url);
+          if (!res.ok) return "";
+          const md = await res.text();
+          const preview = md.split("\n").filter(l => l.trim() !== "").slice(0, lines).join(" ");
+          return preview.length > 150 ? preview.slice(0, 150) + "..." : preview;
+        } catch {
+          return "";
+        }
+      }
+
       try {
         const posts = await fetchBlogIndexFromGitHub();
+        if (!posts.length) throw new Error("No blog posts found.");
+        
         blogListElem.innerHTML = "";
-        posts.forEach(p => {
+
+        for (const p of posts) {
           const title = p.name.replace(/\.md$/i, "");
-          const btn = document.createElement("button");
-          btn.onclick = () => {
+          const preview = await fetchBlogPreview(p.name,20);
+
+          // Create card container
+          const card = document.createElement("div");
+          card.style.border = "1px solid #ccc";
+          card.style.borderRadius = "8px";
+          card.style.padding = "16px";
+          card.style.marginBottom = "16px";
+          card.style.boxShadow = "0 2px 6px rgba(0,0,0,0.05)";
+          card.style.cursor = "pointer";
+          card.onmouseenter = () => card.style.background = "#f1f8e9";
+          card.onmouseleave = () => card.style.background = "#fff";
+          card.onclick = () => {
             window.location.href = `blog.html?post=${encodeURIComponent(p.name)}`;
-          }
-          btn.textContent = title;
-          btn.className = "btn-resume";
-          blogListElem.appendChild(btn);
-        });
+          };
+
+          // Card content
+          const h3 = document.createElement("h3");
+          h3.textContent = title;
+          h3.style.margin = "0 0 8px 0";
+          h3.style.color = "#2e7d32";
+
+          const pPreview = document.createElement("p");
+          pPreview.textContent = preview;
+          pPreview.style.margin = "0";
+          pPreview.style.color = "#555";
+          pPreview.style.fontSize = "0.95rem";
+
+          card.appendChild(h3);
+          card.appendChild(pPreview);
+          blogListElem.appendChild(card);
+        }
       } catch (err) {
-        showError("No blog posts found.");
+        showError(err.message || "Error loading blogs.");
       }
     })();
   </script>
