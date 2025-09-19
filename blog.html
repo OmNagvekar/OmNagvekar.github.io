@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog | Om Nagvekar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    /* Base */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: #fefefe;
+      color: #222;
+      line-height: 1.7;
+    }
+    a {
+      color: #2e7d32;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+
+    /* Header */
+    header {
+      background: #e8f5e9;
+      padding: 16px 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    /* Blog Article */
+    #blog-post h1, #blog-post h2, #blog-post h3 {
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      font-weight: 700;
+      color: #2e7d32;
+    }
+    #blog-post p {
+      margin-bottom: 1em;
+    }
+    #blog-post blockquote {
+      border-left: 4px solid #2e7d32;
+      padding-left: 12px;
+      color: #555;
+      font-style: italic;
+      margin: 16px 0;
+      background: #f0fdf4;
+    }
+    #blog-post pre {
+      background: #f4f4f4;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    #blog-post code {
+      background: #e0f2f1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    #blog-post table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+    }
+    #blog-post table, #blog-post th, #blog-post td {
+      border: 1px solid #ccc;
+    }
+    #blog-post th, #blog-post td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 24px;
+      background: #2e7d32;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: #1b5e20;
+    }
+
+    /* Responsive */
+    @media(max-width:600px){
+      .container { margin: 20px auto; }
+      #blog-post h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a class="back-btn" href="index.html">← Back to Portfolio</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <article id="blog-post">
+      <p>Loading blog post…</p>
+    </article>
+  </main>
+
+  <script>
+    (async function() {
+      const params = new URLSearchParams(window.location.search);
+      const file = params.get("post");
+      const blogEl = document.getElementById("blog-post");
+      if (!file) {
+        blogEl.innerHTML = "<p>No post specified.</p>";
+        return;
+      }
+
+      try {
+        const githubOwner = "OmNagvekar";
+        const githubRepo = "omnagvekar.github.io";
+        const branch = "main"; // change to 'master' if needed
+        const url = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/blogs/${file}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Blog post not found.");
+        const md = await res.text();
+        blogEl.innerHTML = marked.parse(md);
+      } catch(err) {
+        blogEl.innerHTML = `<p style="color:red;">${err.message}</p>`;
+      }
+    })();
+  </script>
+</body>
+</html>
