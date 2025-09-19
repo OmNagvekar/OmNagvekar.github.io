@@ -38,20 +38,162 @@
 
   <section id="about" class="section">
     <div class="container fade-in">
-      <h2>About Me</h2>
-      <div class="image-container" style="text-align: center;" oncontextmenu="return false">
-        <img src="assests/photo.jpg" alt="Om Nagvekar",class="lazy" style="width: 150px; border-radius: 50%; margin-bottom: 20px;">
+      <h2 style="margin-top:0; margin-bottom:12px;">About Me</h2>
+      <!-- Headline -->
+      <div style="margin-bottom:28px; text-align:center;">
+        <h3 style="margin:0; font-size:1.6rem; font-weight:700; color:#2e7d32;">
+          Hello, my name is Om Nagvekar
+        </h3>
+        <p style="margin:6px 0 0; font-size:1.1rem; color:#444;">
+          I’m an <strong>Data Scientist Interns at AlgoAnalytics</strong>
+        </p>
       </div>
-      <p>
-        I am Om Nagvekar, Aspiring AI professional with robust expertise in Python, API development, and advanced NLP techniques like Retrieval-Augmented Generation and Agentic AI. Proven track record in research and hands-on projects, consistently delivering quantifiable improvements. Seeking opportunities to leverage my skills to drive innovative AI solutions.
-      </p>
-      <!-- Resume Download Buttons -->
-      <div class="resume-buttons">
-		<a class="btn-resume" href="assests/Om_Nagvekar_Resume_2.pdf" target="_blank">Download Resume Template 1 (Primary)</a>
-        <a class="btn-resume" href="assests/Om_Nagvekar_Resume.pdf" target="_blank">Download Resume Template 2</a>
+
+      <style>
+        /* Scoped styles for this section only */
+        #about .about-grid {
+          display: grid;
+          grid-template-columns: 320px 1fr;
+          gap: 36px;
+          align-items: start;
+        }
+        /* left column (photo + contact) */
+        #about .about-left { display: flex; flex-direction: column; gap: 12px; }
+        #about .about-photo {
+          width:150px;
+          height:150px;
+          object-fit:cover;
+          border-radius:50%;
+          display:block;
+          margin: 0 auto;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+        #about .contact-box {
+          background: transparent;
+          padding: 6px 6px;
+        }
+        #about .contact-list { list-style:none; padding:0; margin:0; font-family: 'Roboto', sans-serif; }
+        #about .contact-list li {
+          display:flex;
+          gap:8px;
+          align-items:center;
+          padding:6px 4px;
+          border-bottom:1px solid rgba(0,0,0,0.06);
+          color: #20323a;
+          line-height: 1.4;
+        }
+        #about .contact-list li:last-child { border-bottom: none; }
+        #about .contact-list .icon { min-width:22px; text-align:center; font-size:15px; opacity:0.9; }
+        #about .contact-list .label { display:block; color:#2e7d32; font-weight:600; margin-bottom:4px; font-size:0.9rem; }
+        #about .contact-list a { color:#0b7aa1; text-decoration:none; }
+        #about .contact-list span { color: #20323a; font-size: 0.9rem; text-decoration: none;}
+        #about .left-resume { text-align:center; margin-top:10px; }
+        /* right column (bio) */
+        #about .about-right { font-size:1rem; line-height:1.7; color:#243238; }
+        #about .resume-buttons { margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; }
+        /* responsive: stack on small screens */
+        @media (max-width:880px) {
+          #about .about-grid { grid-template-columns: 1fr; }
+          #about .about-photo { margin: 0 0 6px 0; display:block; }
+        }
+      </style>
+
+      <div class="about-grid">
+        <!-- LEFT: photo + contact -->
+        <div class="about-left">
+          <div class="image-container" oncontextmenu="return false">
+            <img class="lazy about-photo" data-src="assests/photo.jpg" src="assests/photo.jpg" alt="Om Nagvekar">
+          </div>
+
+          <div class="contact-box" aria-label="Contact information">
+            <ul class="contact-list">
+              <li>
+                <span class="icon">✉️</span>
+                <div>
+                  <span class="label">Email :</span>
+                  <a href="mailto:omnagvekar29@gmail.com">omnagvekar29@gmail.com</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon">💼</span>
+                <div>
+                  <span class="label">LinkedIn :</span>
+                  <a href="https://linkedin.com/in/om-nagvekar-aa0bb6228" target="_blank">linkedin.com/in/om-nagvekar</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon">🎂</span>
+                <div>
+                  <span class="label">Birthday :</span>
+                  <span>September 22, 2003</span>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon">💼</span>
+                <div>
+                  <span class="label">Work :</span>
+                  <a href="#experience">AlgoAnalytics</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon">🎓</span>
+                <div>
+                  <span class="label">Degree :</span>
+                  <a href="#education">Computer Science (Artificial Intelligence and Machine Learning)</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon">📍</span>
+                <div>
+                  <span class="label">City :</span>
+                  <span>Pune, India</span>
+                </div>
+              </li>
+              <li>
+                <span class="icon">🔗</span>
+                <div>
+                  <span class="label">More :</span>
+                  <a href="#contact">See footer for GitHub, LinkedIn, Scholar & YouTube</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RIGHT: bio text -->
+        <div class="about-right">
+          <p>
+            With experience as a Data Science Intern at <strong>AlgoAnalytics</strong>, I’ve worked on projects in financial statistics, modeling, and advanced NLP applications. My work includes calculating alpha–beta values for stock performance, implementing walk-forward analysis, and building data-driven insights for real-world problems.
+          </p>
+
+          <p>
+            Previously, I’ve contributed to successfull copyright filling of <strong>RAG-based research tools and Hystresis change point detection software</strong> at Shivaji University, synthetic data generation pipelines at ArthaVedh Consulting, and automated contract validation using fine-tuned LLMs during Intel’s Unnati program. I also co-authored a publication on managing spam images with ML and NLP, published by Springer in 2024.
+          </p>
+
+          <p>
+            My projects span <strong>Computer Vision, Deep Learning, FastAPI systems, agentic AI, and knowledge-graph assistants</strong>, including SIH 2024’s AI Garbage Prediction API and the Chef-Agent knowledge graph assistant. Across these, I focus on making research production ready turning models into APIs, pipelines, and tools that deliver measurable results.
+          </p>
+
+          <p>
+            I’m passionate about applying AI/ML research to impactful problems while continuously exploring new frameworks, agentic systems, and scalable ML ops practices.  
+            Let’s connect reach out via email or LinkedIn or contact form, I’d be glad to chat!
+          </p>
+
+
+          <div class="resume-buttons">
+            <a class="btn-resume outline" href="assests/Om_Nagvekar_Resume_2.pdf" target="_blank" style="padding:10px 16px;">Download Resume Template 1 (Primary)</a>
+            <a class="btn-resume" href="assests/Om_Nagvekar_Resume.pdf" target="_blank" style="padding:10px 16px;">Download Resume Template 2</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
 
   <section id="education" class="section">
     <div class="container fade-in">
@@ -92,7 +234,7 @@
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
-            <h3>Associate Data Scientist Intern, AlgoAnalytics Private Limited</h3>
+            <h3>Data Scientist Intern, AlgoAnalytics Private Limited</h3>
             <span class="timeline-date">Aug 2025 – Present</span>
             <ul>
               <li>Working on Financial Statistics, Data Analysis and Data Modeling.</li>
@@ -495,7 +637,7 @@
     });
 
     // Typewriter effect for the header tagline
-    const taglineText = "Innovating with AIML and Beyond";
+    const taglineText = "Exploring AI and Machine Learning";
     let idx = 0;
     const taglineElem = document.getElementById('tagline');
     function typeWriter() {
@@ -510,13 +652,13 @@
     // Intersection Observer for fade-in animations
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+          observer.unobserve(entry.target); // prevent re-trigger
         }
       });
     }, { threshold: 0.2 });
-    
+
     document.querySelectorAll('.fade-in').forEach(el => {
       observer.observe(el);
     });
@@ -527,10 +669,13 @@
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if(target) {
-          target.scrollIntoView({ behavior: 'smooth' });
+          // add small delay to avoid triggering flicker
+          target.classList.add('visible'); 
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });
+
 
     // Scroll-to-Top Button
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
