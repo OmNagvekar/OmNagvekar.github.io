@@ -29,7 +29,7 @@ Kubernetes automates many tasks associated with running containerized applicatio
 
 ##  2. Kubernetes-Architecture
 
-![[Pasted image 20250326003004.png]]
+![alt text](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/26300d8babc4cca124cc4113de97850ec002af75/blogs/Pasted%20image%2020250326003004.png?raw=true)
 
 Kubernetes is designed as a distributed system with a modular architecture. Its main components are divided into **control plane** and **worker nodes**.
 
@@ -471,7 +471,7 @@ kubectl get pods -n [namespace_name]
 - Typically you have several nodes in a cluster; in a learning or resource-limited environment, you might have only one node.
 - The [components](https://kubernetes.io/docs/concepts/architecture/#node-components) on a node include the [kubelet](https://kubernetes.io/docs/reference/generated/kubelet), a [container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes), and the [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/).
 
-![[Pasted image 20250325235014.png]]
+![alt text](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/26300d8babc4cca124cc4113de97850ec002af75/blogs/Pasted%20image%2020250325235014.png?raw=true)
 
 - Each node also comprises three crucial components:
 	- **Kubelet** – This is an agent that runs inside each node to ensure pods are running properly, including communications between the Master and nodes.
