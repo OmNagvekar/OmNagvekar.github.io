@@ -170,6 +170,12 @@ h2 {
     transition: width 1.2s ease-out;
 }
 
+footer img[alt="Visitor Count"] {
+  height: 20px;
+  opacity: 0.85;
+}
+
+
 /* When visible */
 .skill-bar-inner.animate {
     /* you’ll set a data-percent on each bar in HTML, JS will read it */

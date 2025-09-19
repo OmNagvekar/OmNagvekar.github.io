@@ -8,6 +8,7 @@
   <meta name="keywords" content="Om Nagvekar, Portfolio, AI, Machine Learning, Computer Vision, Deep Learning, Android Development, Research, Projects, GitHub, Developer">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet", type="text/css" href="styles.css">
 </head>
 <body>
@@ -25,6 +26,7 @@
           <li><a href="#publications">Publications</a></li>
           <li><a href="#certifications_and_Awards">Certifications & Awards</a></li>
           <li><a href="#projects">Projects</a></li>
+          <li><a href="#blogs">Blog</a></li>
           <li><a href="#Notes">Notes</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -96,6 +98,16 @@
           #about .about-grid { grid-template-columns: 1fr; }
           #about .about-photo { margin: 0 0 6px 0; display:block; }
         }
+      </style>
+      <style>
+        /* Scoped blog styles */
+        #blog-list .post-row { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:12px; border-radius:8px; background:#f8f9f8; margin-bottom:10px; box-shadow:0 4px 10px rgba(0,0,0,0.03); }
+        #blog-list .post-title { font-weight:700; color:#224; }
+        #blog-list .post-meta { color:#567; font-size:0.9rem; }
+        #blog-markdown { background:#fff; padding:22px; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.06); }
+        #blog-markdown img { max-width:100%; height:auto; }
+        /* make sure back button looks good on small screens */
+        @media (max-width:880px) { #blog-list .post-row { flex-direction:column; align-items:flex-start; } }
       </style>
 
       <div class="about-grid">
@@ -439,7 +451,20 @@
       </div>
     </div>
   </section>
-  
+
+  <section id="blogs" class="section">
+    <div class="container fade-in">
+      <h2>Blog</h2>
+      <div id="blog-list" aria-live="polite">
+        <p>Loading posts…</p>
+      </div>
+      <div id="blog-content" style="display:none; margin-top:20px;">
+        <button id="blog-back" class="btn-resume" style="margin-bottom:10px;">⬅ Back to Blogs</button>
+        <article id="blog-markdown" class="blog-markdown container"></article>
+      </div>
+    </div>
+  </section>
+
   <!-- Added Notes Section -->
   <section id="Notes" class="section">
     <div class="container fade-in">
@@ -493,6 +518,9 @@
       <a href="https://linkedin.com/in/om-nagvekar-aa0bb6228" target="_blank">LinkedIn</a>
       <a href="https://scholar.google.com/citations?user=BKi_BzIAAAAJ&hl=en" target="_blank">Google Scholar</a>
       <a href="https://youtube.com/@ompropulsion62?si=kfeHaSLWnDTuS6EB" target="_blank">YouTube</a>
+    </div>
+    <div style="margin-top:10px;">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=OmNagvekar/omnagvekar.github.io" alt="Visitor Count">
     </div>
   </footer>
   
@@ -691,6 +719,185 @@
     scrollToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+    // Blog loader
+    const blogList = document.getElementById("blog-list");
+    const blogContent = document.getElementById("blog-content");
+    const blogMarkdown = document.getElementById("blog-markdown");
+
+    // List of blog markdown files in /blogs folder
+    const blogs = [
+      { title: "The Docker Handbook", file: "blogs/Docker Notes.md" },
+    ];
+
+    // Render blog list
+    blogs.forEach((b, idx) => {
+      const btn = document.createElement("button");
+      btn.textContent = b.title;
+      btn.className = "btn-resume";
+      btn.style.display = "block";
+      btn.style.margin = "6px 0";
+      btn.onclick = () => loadBlog(b.file);
+      blogList.appendChild(btn);
+    });
+
+    // Load blog markdown
+    function loadBlog(file) {
+      fetch(file)
+        .then(res => res.text())
+        .then(md => {
+          blogMarkdown.innerHTML = marked.parse(md);
+          blogList.style.display = "none";
+          blogContent.style.display = "block";
+        })
+        .catch(() => {
+          blogMarkdown.innerHTML = "<p>❌ Failed to load blog.</p>";
+        });
+    }
+
+    // Back to list
+    function closeBlog() {
+      blogList.style.display = "block";
+      blogContent.style.display = "none";
+    }
   </script>
+  <script>
+    (async function() {
+      // CONFIG
+      const githubOwner = "OmNagvekar";
+      const githubRepo = "omnagvekar.github.io"; // change if different
+      const blogsPath = "blogs"; // folder path in the repo
+      const blogListElem = document.getElementById("blog-list");
+      const blogContentElem = document.getElementById("blog-content");
+      const blogMarkdownElem = document.getElementById("blog-markdown");
+      const blogBackBtn = document.getElementById("blog-back");
+
+      // Helpers
+      function showError(msg) {
+        blogListElem.innerHTML = `<p style="color:#b00020">${msg}</p>`;
+      }
+      function isoToReadable(iso) {
+        try { return new Date(iso).toLocaleDateString(); } catch(e){ return iso; }
+      }
+
+      // Try: 1) GitHub API to list /blogs
+      async function fetchBlogIndexFromGitHub() {
+        const apiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${blogsPath}`;
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error(`GitHub API status ${res.status}`);
+        const list = await res.json();
+        // filter markdown files, sort newest first by git meta (we'll rely on 'sha' or name)
+        return list
+          .filter(f => f.type === 'file' && /\.(md|markdown|txt)$/i.test(f.name))
+          .map(f => ({ name: f.name, path: f.path, download_url: f.download_url, sha: f.sha, size: f.size, url: f.html_url }));
+      }
+
+      // Fallback: manifest file blogs/blogs.json (array of {title,file,slug,date})
+      async function fetchBlogIndexFromManifest() {
+        const manifestUrl = `/${blogsPath}/blogs.json`;
+        const res = await fetch(manifestUrl);
+        if (!res.ok) throw new Error("manifest not found");
+        const data = await res.json();
+        // Normalize to { title, path, download_url }
+        return data.map(item => ({
+          name: item.title || item.file,
+          path: item.file,
+          download_url: `/${blogsPath}/${item.file}`
+        }));
+      }
+
+      // Render a list of posts
+      function renderList(posts) {
+        if (!posts.length) {
+          blogListElem.innerHTML = "<p>No blog posts found.</p>";
+          return;
+        }
+        blogListElem.innerHTML = "";
+        posts.forEach(p => {
+          const row = document.createElement("div");
+          row.className = "post-row";
+          const left = document.createElement("div");
+          left.style.flex = "1";
+          left.innerHTML = `<div class="post-title">${p.name.replace(/\.md$/i,'')}</div>
+                            <div class="post-meta">${p.date ? isoToReadable(p.date) : ''}</div>`;
+          const right = document.createElement("div");
+          const openBtn = document.createElement("button");
+          openBtn.className = "btn-resume";
+          openBtn.textContent = "Open";
+          openBtn.addEventListener("click", () => loadAndShowPost(p));
+          right.appendChild(openBtn);
+          row.appendChild(left);
+          row.appendChild(right);
+          blogListElem.appendChild(row);
+        });
+      }
+
+      // Load and display a markdown file
+      async function loadAndShowPost(post) {
+        try {
+          blogContentElem.style.display = "none";
+          blogMarkdownElem.innerHTML = "<p>Loading post…</p>";
+          // Prefer download_url, else compute path
+          const url = post.download_url || `/${post.path}`;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("Failed to fetch post");
+          const md = await res.text();
+          // Parse frontmatter (YAML) optionally to read title/date -- simple parse
+          let frontmatter = {};
+          const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
+          let mdBody = md;
+          if (fmMatch) {
+            const fmRaw = fmMatch[1];
+            mdBody = md.slice(fmMatch[0].length);
+            // parse simple key: value pairs
+            fmRaw.split('\n').forEach(line => {
+              const idx = line.indexOf(':');
+              if (idx > -1) {
+                const k = line.slice(0, idx).trim();
+                const v = line.slice(idx+1).trim();
+                frontmatter[k] = v.replace(/^["']|["']$/g,'');
+              }
+            });
+          }
+          // render
+          const title = frontmatter.title || post.name.replace(/\.md$/i,'');
+          const date = frontmatter.date ? `<div style="color:#666;margin-bottom:12px;">${isoToReadable(frontmatter.date)}</div>` : '';
+          blogMarkdownElem.innerHTML = `<h1 style="margin-top:0;color:#2e7d32">${title}</h1>${date}` + marked.parse(mdBody);
+          // show content
+          blogListElem.style.display = "none";
+          blogContentElem.style.display = "block";
+          // scroll
+          blogMarkdownElem.scrollIntoView({ behavior: "smooth" });
+        } catch (err) {
+          blogMarkdownElem.innerHTML = `<p style="color:#b00020">Failed to load the post. (${err.message})</p>`;
+          blogListElem.style.display = "none";
+          blogContentElem.style.display = "block";
+        }
+      }
+
+      // Close post
+      blogBackBtn.addEventListener("click", () => {
+        blogContentElem.style.display = "none";
+        blogListElem.style.display = "block";
+        window.scrollTo({ top: document.getElementById("blogs").offsetTop - 70, behavior: "smooth" });
+      });
+
+      // MAIN: try GitHub API then manifest
+      try {
+        const posts = await fetchBlogIndexFromGitHub();
+        // If we got posts, attempt to fetch a small metadata (optional): use commit timestamps? skip for now
+        renderList(posts.sort((a,b) => b.name.localeCompare(a.name)));
+      } catch (apiErr) {
+        // fallback to manifest
+        try {
+          const posts = await fetchBlogIndexFromManifest();
+          renderList(posts);
+        } catch (manifestErr) {
+          showError("No blog posts available. Add a `blogs/blogs.json` or enable GitHub API access by making the repo & blogs folder public.");
+          console.error("Blog loader errors:", apiErr, manifestErr);
+        }
+      }
+    })();
+  </script>
+
 </body>
 </html>
