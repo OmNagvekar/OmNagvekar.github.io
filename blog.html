@@ -109,6 +109,9 @@
 
     /* content card */
     .content {
+      position: relative;
+      z-index: 50;
+      overflow: visible;
       background: var(--card);
       border-radius: 12px;
       padding: 26px;
@@ -119,7 +122,20 @@
     .post-title { margin:0 0 10px 0; font-size:1.6rem; color:var(--text); font-weight:700; }
     .post-meta { display:flex; gap:8px; align-items:center; color:var(--muted); margin-bottom:16px; font-size:0.95rem; }
 
-    .featured-img { width:100%; max-height:360px; object-fit:cover; border-radius:10px; margin:12px 0 18px; display:block; }
+    /* Featured image should match article/content width */
+    /* Force any images in the article / featured image to fit column */
+    .content img,
+    .featured-img {
+      display: block !important;
+      width: 100% !important;       /* fill the article column */
+      max-width: 100% !important;   /* never exceed the column */
+      height: auto !important;      /* preserve aspect ratio */
+      object-fit: contain !important; /* preserve full image, change to cover if you want cropping */
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
 
     /* markdown content */
     article#post { font-size:1rem; color:var(--text); line-height:1.75; }
@@ -196,7 +212,7 @@
     .copy-btn:focus { outline:2px solid rgba(0,0,0,0.08); }
 
     /* sidebar toc */
-    .sidebar { position:sticky; top:84px; align-self:start; max-height:calc(100vh - 120px); overflow:auto; }
+    .sidebar { position:sticky; z-index: 10; top:84px; align-self:start; max-height:calc(100vh - 120px); overflow:auto; }
     .toc { padding:12px; background: rgba(255,255,255,0.02); border-radius:10px; margin-bottom:14px; border:1px solid rgba(0,0,0,0.04); }
     .toc h4 { margin:0 0 8px 0; color:var(--muted); }
     .toc a { color:var(--text); text-decoration:none; font-size:0.95rem; }
@@ -211,7 +227,87 @@
 
     /* focus visible accessibility */
     :focus { outline: 2px solid rgba(43, 128, 110, 0.18); outline-offset: 2px; border-radius:6px; }
+    /* --- IMAGE / SIDEBAR STACKING FIX (paste AFTER existing CSS) --- */
+
+    /* Ensure content card sits above the sidebar */
+    .content {
+      position: relative;   /* enable z-index */
+      z-index: 50;          /* higher than sidebar */
+      overflow: visible;    /* allow image to render fully inside the card */
+    }
+
+    /* Constrain featured image safely inside content card */
+    .featured-img {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      max-height: 66vh;         /* prevents overly tall images; adjust if you want higher */
+      object-fit: contain;      /* preserve aspect ratio without cropping important parts */
+      border-radius: 10px;
+      margin: 12px 0 18px;
+      position: relative;
+      z-index: 51;              /* ensure image sits above sidebar visually */
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    }
+
+    /* Make sidebar visually distinct and put it below content in stacking order */
+    .sidebar {
+      position: sticky;
+      top: 84px;
+      z-index: 10;              /* lower than .content */
+      background: rgba(255,255,255,0.95); /* nearly solid so it doesn't visually wash over images */
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.06);
+      overflow: auto;
+    }
+
+    /* Dark theme tweak for sidebar background to keep contrast but opaque */
+    [data-theme="dark"] .sidebar {
+      background: rgba(9,14,18,0.92);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    /* Responsive: hide sidebar on smaller screens to avoid overlap */
+    @media (max-width:1100px){
+      .sidebar { display: none; }
+      .layout { grid-template-columns: 1fr min(100%, var(--max-width)); }
+    }
+
   </style>
+  <style>
+    /* Scroll to Top Button */
+    #scrollToTopBtn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 70;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: none; /* hidden by default */
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      transition: opacity 0.3s ease, transform 0.25s ease;
+    }
+
+    #scrollToTopBtn:hover {
+      background: #256d27;
+      transform: translateY(-2px);
+    }
+
+    [data-theme="dark"] #scrollToTopBtn {
+      background: var(--accent);
+      color: #fff;
+    }
+  </style>
+
 </head>
 <body data-theme="light">
   <div class="progress-wrap" aria-hidden="true"><div class="progress" id="readingProgress"></div></div>
@@ -268,6 +364,7 @@
         <p class="muted">Om Nagvekar — Data Scientist & AI researcher. <a href="index.html">Portfolio</a></p>
       </div>
     </aside>
+    <button id="scrollToTopBtn">&#8679;</button>
   </main>
 
   <script>
@@ -327,12 +424,64 @@
       const m = md.match(/^\s*#\s+([^\n\r]+)/m);
       return m ? m[1].trim() : null;
     }
+    function fixImagePath(path) {
+      // If absolute URL (http/https), return as is
+      if (/^https?:\/\//i.test(path)) return path;
+      // Otherwise, assume it's relative to your GitHub repo blogs folder
+      return `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/${blogsPath}/${path}`;
+    }
     function findFeaturedImage(md) {
       const fm = md.match(/featured:\s*(.+)/i);
       if (fm) return fm[1].trim();
       const img = md.match(/!\[.*?\]\((.*?)\)/);
-      return img ? img[1] : null;
+      return img ? fixImagePath(img[1]) : null;
     }
+    // --- tiny runtime fixes for featured image paths + safe rendering ---
+    // ensure featured image respects container and uses lazy loading
+    (function fixFeaturedImage() {
+      const f = document.getElementById('featuredImage');
+      if (!f) return;
+      f.loading = 'lazy';
+      // make sure CSS rules above always apply
+      f.style.display = 'block';
+      f.style.width = '100%';
+      f.style.height = 'auto';
+      f.style.objectFit = 'contain';
+      f.style.maxHeight = '66vh';
+      f.style.zIndex = '51';
+      // accessibility fallback for alt text
+      if (!f.alt) f.alt = (document.getElementById('postTitle')?.textContent || 'Featured image');
+    })();
+
+
+    // --- Force featured image to match content width at runtime ---
+    (function ensureFeaturedFits() {
+      const adjust = () => {
+        const content = document.querySelector('.content');
+        const img = document.getElementById('featuredImage');
+        if (!content || !img) return;
+        // ensure CSS applied
+        img.style.display = 'block';
+        img.style.width = '100%';
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        img.style.objectFit = 'contain';
+        // If image loaded but still too big due to weird CSS, explicitly set maxWidth in px
+        const cw = content.clientWidth;
+        if (cw) img.style.maxWidth = cw + 'px';
+      };
+
+      // run after image loads (if it's set later) and once now
+      const img = document.getElementById('featuredImage');
+      if (img) {
+        if (!img.complete) img.addEventListener('load', adjust);
+        adjust();
+      }
+      window.addEventListener('resize', adjust);
+      // also re-run shortly after DOM changes
+      setTimeout(adjust, 400);
+    })();
+
 
     // render markdown
     function renderMarkdown(md) {
@@ -423,6 +572,21 @@
       };
       document.getElementById('emailShare').href = `mailto:?subject=${encodeURIComponent(document.title)}&body=${encodeURIComponent(pageUrl)}`;
     }
+
+    // Scroll-to-Top Button
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    window.addEventListener('scroll', () => {
+      document.querySelector('header')
+        .classList.toggle('small', window.scrollY > 100);
+      if (window.scrollY > 300) {
+        scrollToTopBtn.style.display = 'block';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    });
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     // main
     (async function(){
