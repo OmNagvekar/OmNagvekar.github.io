@@ -676,8 +676,20 @@
         const raw = await fetchMarkdown(file);
         const title = extractTitle(raw) || file.replace(/\.md$/i,'');
         const img = findFeaturedImage(raw);
+
+        const metaRes = await fetch(`https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/${blogsPath}/blogs.json`);
+        const blogsMeta = await metaRes.json();
+        const meta = blogsMeta.find(b => b.file === file);
+        if(meta && meta.date) {
+          // optionally format date: convert from "yyyy-dd-mm" to "dd/mm/yyyy"
+          const parts = meta.date.split('-');
+          const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+          document.getElementById('postDate').textContent = formattedDate;
+        } else {
+          document.getElementById('postDate').textContent = (new Date()).toLocaleDateString();
+        }
+
         document.getElementById('postTitle').textContent = title;
-        document.getElementById('postDate').textContent = (new Date()).toLocaleDateString();
         document.getElementById('readTime').textContent = estimateReadingTime(raw);
 
         if (img) {
