@@ -212,5 +212,3 @@ event has been set, continuing execution
 **Condition**
 
 soon!
-
-
