@@ -48,8 +48,14 @@
       --copy-btn-color: #e6eef6;
     }
 
-    html,body { height:100%; }
+    
+
+
+    html,body { height:100%; margin:0; font-family: Inter, Roboto, sans-serif; }
     body{
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       margin:0;
       font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
       background: var(--bg);
@@ -57,6 +63,16 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       transition: background 220ms ease, color 220ms ease;
+    }
+    main.layout {
+      display: grid;
+      grid-template-columns: 1fr min(820px, var(--max-width)) 300px;
+      gap: 28px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 28px auto;
+      padding: 0 20px;
+      flex: 1 0 auto;
     }
 
     /* Topbar */
@@ -306,6 +322,36 @@
       background: var(--accent);
       color: #fff;
     }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2C3E50;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    footer .social-links a {
+      margin: 0px;
+      color: #4CAF50;
+    }
+
+    footer .social-links a:hover {
+      color: #fff;
+    }
+    footer img[alt="Visitor Count"] {
+      display: inline-block;
+      height: 20px;
+      opacity: 0.85;
+    }
+
+    #tagline::after {
+      content: '|';
+      display: inline-block;
+      margin-left: 2px;
+      animation: blink 0.7s steps(2) infinite;
+    }
+    @keyframes blink { to { visibility: hidden; } }
   </style>
 
 </head>
@@ -326,6 +372,7 @@
       <a class="btn" href="index.html">Back to Portfolio</a>
     </div>
   </header>
+  
 
   <main class="layout" role="main" aria-live="polite">
     <div></div>
@@ -364,8 +411,23 @@
         <p class="muted">Om Nagvekar — Data Scientist & AI researcher. <a href="index.html">Portfolio</a></p>
       </div>
     </aside>
-    <button id="scrollToTopBtn">&#8679;</button>
   </main>
+
+  <footer>
+      <p>&copy; 2024 Om Nagvekar | Built with passion</p>
+      <div class="social-links">
+        <a href="https://github.com/OmNagvekar" target="_blank">GitHub</a>
+        <a href="mailto:omnagvekar29@gmail.com" target="_blank">E-mail</a>
+        <a href="https://linkedin.com/in/om-nagvekar-aa0bb6228" target="_blank">LinkedIn</a>
+        <a href="https://scholar.google.com/citations?user=BKi_BzIAAAAJ&hl=en" target="_blank">Google Scholar</a>
+        <a href="https://youtube.com/@ompropulsion62?si=kfeHaSLWnDTuS6EB" target="_blank">YouTube</a>
+      </div>
+      <div style="margin-top:10px;">
+        <img id="visitorBadge" alt="Visitor Count">
+      </div>
+    </footer>
+    
+  <button id="scrollToTopBtn">&#8679;</button>
 
   <script>
     // --- config ---
@@ -587,6 +649,20 @@
     scrollToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+    // --- Dynamic visitor badge ---
+    function updateVisitorBadge() {
+      const badge = document.getElementById("visitorBadge");
+      if (!badge) return;
+
+      // Extract the blog file from URL query ?post=xxx.md
+      const params = new URLSearchParams(window.location.search);
+      const fileName = params.get("post") || "index"; // fallback for safety
+
+      // Construct unique page_id (repo + filename)
+      const pageId = `${githubOwner}/${githubRepo}/${blogsPath}/${fileName}`;
+
+      badge.src = `https://visitor-badge.laobi.icu/badge?page_id=${encodeURIComponent(pageId)}`;
+    }
 
     // main
     (async function(){
@@ -621,6 +697,7 @@
 
         buildTOC(postEl);
         setupShare();
+        updateVisitorBadge();
 
         updateProgress();
         window.addEventListener('scroll', updateProgress);
