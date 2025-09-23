@@ -1,3 +1,5 @@
+# Deep Learning with Torch
+
 ```python
 import torch
 from torch import nn
@@ -120,7 +122,7 @@ plot_predictions()
 
 
     
-![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/26300d8babc4cca124cc4113de97850ec002af75/blogs/Learn%20Pytorch_files/Learn%20Pytorch_6_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_6_0.png?raw=True)
     
 
 
@@ -210,7 +212,7 @@ plot_predictions(predictions=y_preds)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_11_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_11_0.png?raw=True)
     
 
 
@@ -474,7 +476,7 @@ plot_predictions(predictions=test_pred)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_14_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_14_0.png?raw=true)
     
 
 
@@ -491,7 +493,7 @@ plt.legend();
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_15_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_15_0.png?raw=true)
     
 
 
@@ -868,7 +870,7 @@ plot_predictions(predictions=test_pred)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_30_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_30_0.png?raw=true)
     
 
 
@@ -885,7 +887,7 @@ plt.legend();
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_31_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_31_0.png?raw=true)
     
 
 
@@ -1007,7 +1009,7 @@ plt.scatter(x[:,0],x[:,1],c=y)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_38_1.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_38_1.png?raw=true)
     
 
 
@@ -1352,7 +1354,7 @@ plot_decision_boundary(model_circle, x_test, y_test)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_49_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_49_0.png?raw=true)
     
 
 
@@ -1369,7 +1371,7 @@ plt.legend();
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_50_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_50_0.png?raw=true)
     
 
 
@@ -1424,7 +1426,7 @@ plt.scatter(x_blob[:, 0], x_blob[:, 1], c=y_blob, cmap=plt.cm.RdYlBu)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_51_2.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_51_2.png?raw=true)
     
 
 
@@ -1684,7 +1686,7 @@ plot_decision_boundary(model_4, x_blob_test, y_blob_test)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_56_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_56_0.png?raw=true)
     
 
 
@@ -1731,7 +1733,7 @@ plt.show()
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_58_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_58_0.png?raw=true)
     
 
 
@@ -1879,7 +1881,7 @@ plot_decision_boundary(model_5, x_spiral_test, y_spiral_test)
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_65_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_65_0.png?raw=true)
     
 
 
@@ -1965,13 +1967,13 @@ fig2, ax2 = confmat.plot()
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_69_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_69_0.png?raw=true)
     
 
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_69_1.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_69_1.png?raw=true)
     
 
 
@@ -2156,7 +2158,7 @@ plt.title(class_names[label])
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_73_2.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_73_2.png?raw=true)
     
 
 
@@ -2190,7 +2192,7 @@ for i in range(1, rows * cols + 1):
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_75_0.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_75_0.png?raw=true)
     
 
 
@@ -2256,7 +2258,7 @@ print(f"Label: {label}, label size: {label.shape}")
 
 
     
-![png](Learn%20Pytorch_files/Learn%20Pytorch_78_1.png)
+![png](https://github.com/OmNagvekar/OmNagvekar.github.io/blob/main/blogs/Learn%20Pytorch_files/Learn%20Pytorch_78_1.png?raw=true)
     
 
 
